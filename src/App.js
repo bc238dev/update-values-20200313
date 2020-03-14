@@ -5,7 +5,17 @@ import "./styles.css";
 // different components
 let createDataContext = function() {
   let listeners = [];
-  let state = { val1: 1, val2: 2 };
+  let state = {
+    // Data
+    val1: 1,
+    val2: 2,
+    val3: 0,
+
+    // Methods
+    onClick: () => {
+      state.val3++;
+    }
+  };
 
   return {
     update: data => {
@@ -32,12 +42,18 @@ class Comp1 extends React.Component {
     });
   }
 
+  handleClick = () => {
+    // console.log("Comp1 clicked...");
+    dataCtx.getState().onClick();
+  };
+
   render() {
     return (
-      <div className="comp1">
+      <div className="comp1" onClick={this.handleClick}>
         --- Comp1 ---
         <hr />
-        val2: {this.state.val2}
+        val1: {this.state.val1} & val2: {this.state.val2} & val3:{" "}
+        {this.state.val3}
       </div>
     );
   }
@@ -57,7 +73,9 @@ class Comp2 extends React.Component {
       <div className="comp2">
         --- Comp2 ---
         <hr />
-        val1: {this.state.val1} & val2: {this.state.val2}
+        val1: {this.state.val1} & val2: {this.state.val2} & val3:
+        {this.state.val3}
+        <hr />
         <Comp1 />
       </div>
     );
@@ -73,7 +91,7 @@ export default function App() {
 }
 
 function updateData4Demo() {
-  let cntr = 1;
+  let cntr = 0;
 
   setInterval(() => {
     cntr++;
