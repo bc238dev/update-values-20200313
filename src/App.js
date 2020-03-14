@@ -10,6 +10,7 @@ let createDataContext = function() {
     val1: 1,
     val2: 2,
     val3: 0,
+    cntr: 0,
 
     // Methods
     onClick: () => {
@@ -27,6 +28,12 @@ let createDataContext = function() {
     },
     getState: () => {
       return state;
+    },
+    incr: () => {
+      state.cntr++;
+    },
+    decr: () => {
+      state.cntr--;
     }
   };
 };
@@ -52,8 +59,8 @@ class Comp1 extends React.Component {
       <div className="comp1" onClick={this.handleClick}>
         --- Comp1 ---
         <hr />
-        val1: {this.state.val1} & val2: {this.state.val2} & val3:{" "}
-        {this.state.val3}
+        val1: {this.state.val1} & val2: {this.state.val2} & val3:
+        {this.state.val3} & cntr: {this.state.cntr}
       </div>
     );
   }
@@ -77,6 +84,10 @@ class Comp2 extends React.Component {
         {this.state.val3}
         <hr />
         <Comp1 />
+        <hr />
+        <button onClick={() => dataCtx.incr()}>+</button>
+        <button onClick={() => dataCtx.decr()}>-</button>
+        cntr: {this.state.cntr}
       </div>
     );
   }
