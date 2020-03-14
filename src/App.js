@@ -1,6 +1,8 @@
 import React from "react";
 import "./styles.css";
 
+// I will create a context here that I can share between
+// different components
 let createDataContext = function() {
   let listeners = [];
   let state = { val1: 1, val2: 2 };
@@ -21,24 +23,30 @@ let createDataContext = function() {
 
 let dataCtx = createDataContext();
 
-function Comp1(props) {
-  return <div className="comp1">Comp1</div>;
+class Comp1 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    dataCtx.register(d => {
+      this.setState({ ...d });
+    });
+  }
+
+  render() {
+    return (
+      <div className="comp1">
+        --- Comp1 ---
+        <hr />
+        val2: {this.state.val2}
+      </div>
+    );
+  }
 }
-
-let cntr = 1;
-
-setInterval(() => {
-  cntr++;
-  dataCtx.update({ val1: cntr, val2: 2 * cntr });
-}, 100);
 
 class Comp2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  componentDidMount() {
     dataCtx.register(d => {
       this.setState({ ...d });
     });
@@ -47,7 +55,7 @@ class Comp2 extends React.Component {
   render() {
     return (
       <div className="comp2">
-        <h5>Comp2</h5>
+        --- Comp2 ---
         <hr />
         val1: {this.state.val1} & val2: {this.state.val2}
         <Comp1 />
@@ -63,3 +71,14 @@ export default function App() {
     </div>
   );
 }
+
+function updateData4Demo() {
+  let cntr = 1;
+
+  setInterval(() => {
+    cntr++;
+    dataCtx.update({ val1: cntr, val2: 2 * cntr });
+  }, 100);
+}
+
+updateData4Demo();
