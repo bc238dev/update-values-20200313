@@ -96,6 +96,7 @@ class Comp2 extends React.Component {
 export default function App() {
   return (
     <div className="App">
+      <Comp1 />
       <Comp2 />
     </div>
   );
